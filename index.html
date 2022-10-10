@@ -58,12 +58,12 @@
         resultBoxElement.classList.add('hidden');
         const textToParse = textareaInputElement.value;
         var success = validateJSON(textToParse);
-        if( !success ) {
+        if (!success) {
             return;
         }
         try {
             resultBoxElement.classList.remove('hidden');
-            resultBoxElement.value = he.escape(textToParse);
+            resultBoxElement.value = he.escape(JSON.stringify(JSON.parse(textToParse), undefined, 0));
             resultDivElement.classList.add('hidden');
         } catch (thrownError) {
             console.log(thrownError);
@@ -75,14 +75,14 @@
         resultBoxElement.classList.add('hidden');
         const textToParse = textareaInputElement.value;
         try {
-            resultBoxElement.classList.remove('hidden');
             var result = he.unescape(textToParse)
-            resultBoxElement.value = result;
-            resultDivElement.classList.add('hidden');
             var success = validateJSON(result);
-            if( !success ) {
+            if (!success) {
                 return;
             }
+            resultBoxElement.value = JSON.stringify(JSON.parse(result), undefined, 2);
+            resultBoxElement.classList.remove('hidden');
+            resultDivElement.classList.add('hidden');
         } catch (thrownError) {
             console.log(thrownError);
             resultDivElement.innerHTML = '<span style="background-color:#f5a5a5;font-weight:bold;">Could not unescape input value</span>';
